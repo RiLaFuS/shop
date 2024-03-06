@@ -73,7 +73,7 @@ if  uploaded_img is not None:
     cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
 
     # 物体検知の実行
-    results = model(cv2_img, conf=0.2, iou=1.0)
+    results = model(cv2_img, conf=0.2, iou=0.5)
 
     # プログレスバーを100%に更新
     progress_bar.progress(100)
