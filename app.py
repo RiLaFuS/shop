@@ -75,6 +75,21 @@ if  uploaded_img is not None:
     # 物体検知の実行
     results = model(cv2_img, conf=0.14)
 
+    # 検出結果を取得し、信頼度でソートする
+    # results.xyxyは、[xmin, ymin, xmax, ymax, confidence, class]の形式のテンソルを含んでいると仮定
+    # ここではPandasのDataFrameを使用していますが、YOLOv5のバージョンによっては適切な形式に変更する必要があります
+    detections = results.xyxy[0].cpu().numpy()
+    sorted_indices = np.argsort(detections[:, 4])  # 信頼度に基づいてインデックスをソート
+    sorted_detections = detections[sorted_indices]  # ソートされた検出結果
+
+    # ソートされた結果に基づいて画像に描画
+    for det in sorted_detections:
+        x1, y1, x2, y2, conf, class_id = map(int, det)
+        label = model.names[class_id]
+        cv2.rectangle(cv2_img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.putText(cv2_img, f'{label} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+
+
     # プログレスバーを100%に更新
     progress_bar.progress(100)
 
