@@ -39,7 +39,7 @@ st.write(f"合計金額: {total_price}円")
 st.sidebar.title("支払い方法の選択")
 st.sidebar.write("いずれかの画像をダウンロードしてください。")
 # ダウンロードする動画ファイルのリスト
-image_files = ["coin.jpg", "paper.jpg"]
+image_files = ["硬貨.jpg", "紙幣.jpg"]
 
 # 各動画ファイルに対してダウンロードボタンを追加
 for image_file_name in image_files:
@@ -89,15 +89,15 @@ if  uploaded_img is not None:
     image_name = uploaded_img.name
 
     # 画像の名前に基づいて金額を表示
-    if image_name == "coin.jpg":
+    if image_name == "硬貨.jpg":
         st.write("774円頂戴いたします。・・・")
-    elif image_name == "paper.jpg":
+    elif image_name == "紙幣.jpg":
         st.write("5234円頂戴いたします。・・・")
 
     # 画像の名前に基づいて条件分岐
-    if image_name == "coin.jpg":
+    if image_name == "硬貨.jpg":
         difference = 774 - total_price
-    elif image_name == "paper.jpg":
+    elif image_name == "紙幣.jpg":
         difference = 5234 - total_price
     else:
         st.write("アップロードされた画像が支払いに対応していません。")
