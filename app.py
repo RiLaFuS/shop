@@ -78,28 +78,12 @@ if  uploaded_img is not None:
     # プログレスバーを100%に更新
     progress_bar.progress(100)
 
-
-    # 検出結果をPandas DataFrameとして取得し、信頼度でソートする
-    detections_df = results.pandas().xyxy[0]  # 検出結果をDataFrameとして取得
-    detections_df.sort_values(by='confidence', ascending=True, inplace=True)  # DataFrameを信頼度でソート
-
-    # ソートされた結果に基づいて画像に描画
-    for index, row in detections_df.iterrows():
-        x1, y1, x2, y2, conf, class_id = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax']), row['confidence'], int(row['class'])
-        label = model.names[class_id]
-        cv2.rectangle(cv2_img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        cv2.putText(cv2_img, f'{label} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-
-    # BGRからRGBに変換して画像を表示
-    output_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
-    st.image(output_img)
-
     # 検出結果を描画
-    # output_img = results[0].plot(labels=True, conf=True)
-    # output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)
+    output_img = results[0].plot(labels=True, conf=True)
+    output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)
 
     # 画像を表示
-    # st.image(output_img)
+    st.image(output_img)
 
     # アップロードされた画像の名前を取得
     image_name = uploaded_img.name
